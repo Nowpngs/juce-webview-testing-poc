@@ -44,6 +44,8 @@ target_compile_definitions(${PROJECT_NAME}
     JUCE_VST3_CAN_REPLACE_VST2=0
 )
 
+file(COPY "${CMAKE_CURRENT_SOURCE_DIR}/../libs/juce/modules/juce_gui_extra/native/javascript/" DESTINATION "${CMAKE_CURRENT_SOURCE_DIR}/ui/public/js/juce/")
+
 if(MSVC)
     target_compile_definitions(${PROJECT_NAME}
         target_compile_options(${PROJECT_NAME} PRIVATE /Wall /WX)

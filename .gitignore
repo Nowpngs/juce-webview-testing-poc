@@ -38,3 +38,4 @@
 
 build/
 libs/
+plugin/ui/public/js/juce
