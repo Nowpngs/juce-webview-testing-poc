@@ -55,12 +55,36 @@ namespace audio_plugin
 AudioPluginAudioProcessorEditor::AudioPluginAudioProcessorEditor (AudioPluginAudioProcessor & p)
     : AudioProcessorEditor (&p)
     , processorRef (p)
-    , webView (juce::WebBrowserComponent::Options ().withResourceProvider (
-          [this] (const juce::String & url) { return getResource (url); }))
+    , webView (juce::WebBrowserComponent::Options ()
+                   .withResourceProvider ([this] (const juce::String & url)
+                                          { return getResource (url); })
+                   .withNativeIntegrationEnabled ())
 {
     juce::ignoreUnused (processorRef);
+
     addAndMakeVisible (webView);
     webView.goToURL (webView.getResourceProviderRoot ());
+
+    runJavaScriptButton.onClick = [this]
+    {
+        constexpr auto JAVASCRIPT_TO_RUN {"console.log('Hello from JavaScript!');"};
+        webView.evaluateJavascript (JAVASCRIPT_TO_RUN,
+                                    [] (const juce::WebBrowserComponent::EvaluationResult result)
+                                    {
+                                        if (const auto * resultPtr = result.getResult ())
+                                        {
+                                            std::cout << "JavaScript eveluation result: "
+                                                      << resultPtr->toString () << std::endl;
+                                        }
+                                        else
+                                        {
+                                            std::cout << "JavaScript eveluation failed!"
+                                                      << result.getError ()->message << std::endl;
+                                        }
+                                    });
+    };
+
+    addAndMakeVisible (runJavaScriptButton);
     // Make sure that before the constructor has finished, you've set the
     // editor's size to whatever you need it to be.
     setResizable (true, true);
@@ -76,7 +100,9 @@ void AudioPluginAudioProcessorEditor::resized ()
 {
     // This is generally where you'll want to lay out the positions of any
     // subcomponents in your editor..
-    webView.setBounds (getLocalBounds ());
+    auto bounds = getLocalBounds ();
+    webView.setBounds (bounds.removeFromRight (getWidth () / 2));
+    runJavaScriptButton.setBounds (bounds.removeFromTop (50).reduced (5));
 }
 
 std::optional<juce::WebBrowserComponent::Resource>
