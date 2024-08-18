@@ -1,4 +1,6 @@
-# JUCE Webview Texting POC
+# JUCE Webview Testing POC
+
+Webview Testing POC is a JUCE-based audio plugin project designed to explore and evaluate the integration of webview functionality within a JUCE framework. This project serves as a proof of concept, aiming to test the viability and performance of embedding web-based interfaces in a native audio plugin environment.
 
 ## Setup
 
