@@ -58,7 +58,8 @@ AudioPluginAudioProcessorEditor::AudioPluginAudioProcessorEditor (AudioPluginAud
     , webView (juce::WebBrowserComponent::Options ()
                    .withResourceProvider ([this] (const juce::String & url)
                                           { return getResource (url); })
-                   .withNativeIntegrationEnabled ())
+                   .withNativeIntegrationEnabled ()
+                   .withUserScript (R"(console.log("Initialising Script");)"))
 {
     juce::ignoreUnused (processorRef);
 
