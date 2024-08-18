@@ -8,7 +8,7 @@ build-plugin:
 
 format-style:
 	@echo "Formatting Code..."
-	@find plugin test \( -name '*.cpp' -o -name '*.h' \) -exec clang-format -i {} +
+	@find plugin \( -name '*.cpp' -o -name '*.h' \) -exec clang-format -i {} +
 	@echo "Done!"
 
 run-plugin:
