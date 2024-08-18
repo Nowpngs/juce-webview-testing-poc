@@ -1,6 +1,6 @@
-#include "BasicAudioPlugin/PluginEditor.h"
+#include "JuceWebViewPlugin/PluginEditor.h"
 
-#include "BasicAudioPlugin/PluginProcessor.h"
+#include "JuceWebViewPlugin/PluginProcessor.h"
 
 namespace audio_plugin
 {

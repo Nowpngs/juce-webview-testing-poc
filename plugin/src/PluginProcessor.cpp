@@ -1,6 +1,6 @@
-#include "BasicAudioPlugin/PluginProcessor.h"
+#include "JuceWebViewPlugin/PluginProcessor.h"
 
-#include "BasicAudioPlugin/PluginEditor.h"
+#include "JuceWebViewPlugin/PluginEditor.h"
 
 namespace audio_plugin
 {
@@ -24,7 +24,7 @@ AudioPluginAudioProcessor::~AudioPluginAudioProcessor ()
 //==============================================================================
 const juce::String AudioPluginAudioProcessor::getName () const
 {
-    return "BasicAudioPlugin";
+    return "AudioPlugin";
 }
 
 bool AudioPluginAudioProcessor::acceptsMidi () const

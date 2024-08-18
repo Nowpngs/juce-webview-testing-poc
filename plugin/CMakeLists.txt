@@ -1,8 +1,8 @@
 cmake_minimum_required(VERSION 3.22)
 
-project(AudioPlugin VERSION 0.1.0)
+project(JuceWebViewPlugin VERSION 0.1.0)
 
-set(INCLUDE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/include/BasicAudioPlugin")
+set(INCLUDE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/include/JuceWebViewPlugin")
 
 juce_add_plugin(${PROJECT_NAME}
     COMPANY_NAME TestCompany
@@ -12,7 +12,7 @@ juce_add_plugin(${PROJECT_NAME}
     PLUGIN_MANUFACTURER_CODE TEST
     PLUGIN_CODE AUPL
     FORMATS Standalone VST3
-    PRODUCT_NAME "BasicAudioPlugin"
+    PRODUCT_NAME "JuceWebViewPlugin"
 )
 
 target_sources(${PROJECT_NAME}

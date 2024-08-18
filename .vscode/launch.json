@@ -5,7 +5,7 @@
       "name": "Launch Debug",
       "type": "cppdbg",
       "request": "launch",
-      "program": "${workspaceFolder}/build/plugin/AudioPlugin_artefacts/Standalone/BasicAudioPlugin.app",
+      "program": "${workspaceFolder}/build/plugin/AudioPlugin_artefacts/Standalone/JuceWebViewPlugin.app",
       "args": [],
       "stopAtEntry": false,
       "cwd": "${workspaceFolder}",

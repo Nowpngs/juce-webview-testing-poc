@@ -13,4 +13,4 @@ format-style:
 
 run-plugin:
 	@echo "Running Plugin..."
-	@cd ./build/plugin/AudioPlugin_artefacts/Standalone/BasicAudioPlugin.app/Contents/MacOS && ./BasicAudioPlugin
+	@cd ./build/plugin/JuceWebViewPlugin_artefacts/Standalone/JuceWebViewPlugin.app/Contents/MacOS && ./JuceWebViewPlugin
