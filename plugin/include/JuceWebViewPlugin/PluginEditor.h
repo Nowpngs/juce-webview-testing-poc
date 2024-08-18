@@ -23,7 +23,8 @@ private:
     AudioPluginAudioProcessor & processorRef;
     juce::WebBrowserComponent webView;
 
-    juce::TextButton runJavaScriptButton {"Run JavaScript"};
+    juce::TextButton runJavaScriptButton {"Run some JavaScript"};
+    juce::TextButton emitJavaScriptEventButton {"Emit  JavaScript event"};
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (AudioPluginAudioProcessorEditor)
 };

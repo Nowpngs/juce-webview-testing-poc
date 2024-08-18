@@ -83,8 +83,15 @@ AudioPluginAudioProcessorEditor::AudioPluginAudioProcessorEditor (AudioPluginAud
                                         }
                                     });
     };
-
     addAndMakeVisible (runJavaScriptButton);
+
+    emitJavaScriptEventButton.onClick = [this]
+    {
+        static const juce::Identifier EVENT_ID {"exampleEvent"};
+        webView.emitEventIfBrowserIsVisible (EVENT_ID, 42.0);
+    };
+    addAndMakeVisible (emitJavaScriptEventButton);
+
     // Make sure that before the constructor has finished, you've set the
     // editor's size to whatever you need it to be.
     setResizable (true, true);
@@ -103,6 +110,7 @@ void AudioPluginAudioProcessorEditor::resized ()
     auto bounds = getLocalBounds ();
     webView.setBounds (bounds.removeFromRight (getWidth () / 2));
     runJavaScriptButton.setBounds (bounds.removeFromTop (50).reduced (5));
+    emitJavaScriptEventButton.setBounds (bounds.removeFromTop (50).reduced (5));
 }
 
 std::optional<juce::WebBrowserComponent::Resource>

@@ -1,3 +1,8 @@
 import * as Juce from "./juce/index.js";
 
-console.log(window.__JUCE__.backend);
+window.__JUCE__.backend.addEventListener(
+  "exampleEvent",
+  (objectFromCppBackend) => {
+    console.log(objectFromCppBackend);
+  }
+);
