@@ -59,7 +59,10 @@ AudioPluginAudioProcessorEditor::AudioPluginAudioProcessorEditor (AudioPluginAud
                    .withResourceProvider ([this] (const juce::String & url)
                                           { return getResource (url); })
                    .withNativeIntegrationEnabled ()
-                   .withUserScript (R"(console.log("Initialising Script");)"))
+                   .withUserScript (R"(console.log("Initialising Script");)")
+                   .withInitialisationData ("vendor", JUCE_COMPANY_NAME)
+                   .withInitialisationData ("pluginName", JUCE_PRODUCT_NAME)
+                   .withInitialisationData ("pluginVersion", JUCE_PRODUCT_VERSION))
 {
     juce::ignoreUnused (processorRef);
 
