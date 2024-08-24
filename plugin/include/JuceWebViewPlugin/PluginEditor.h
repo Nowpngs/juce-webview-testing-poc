@@ -18,6 +18,10 @@ public:
 
 private:
     std::optional<juce::WebBrowserComponent::Resource> getResource (const juce::String & url);
+
+    void nativeFunction (const juce::Array<juce::var> & args,
+                         juce::WebBrowserComponent::NativeFunctionCompletion completion);
+
     // This reference is provided as a quick way for your editor to
     // access the processor object that created it.
     AudioPluginAudioProcessor & processorRef;
@@ -25,6 +29,8 @@ private:
 
     juce::TextButton runJavaScriptButton {"Run some JavaScript"};
     juce::TextButton emitJavaScriptEventButton {"Emit  JavaScript event"};
+
+    juce::Label labelUpdatedFromJavaScript {"label", "To be updated from JavaScript"};
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (AudioPluginAudioProcessorEditor)
 };

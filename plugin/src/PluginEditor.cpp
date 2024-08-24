@@ -62,7 +62,12 @@ AudioPluginAudioProcessorEditor::AudioPluginAudioProcessorEditor (AudioPluginAud
                    .withUserScript (R"(console.log("Initialising Script");)")
                    .withInitialisationData ("vendor", JUCE_COMPANY_NAME)
                    .withInitialisationData ("pluginName", JUCE_PRODUCT_NAME)
-                   .withInitialisationData ("pluginVersion", JUCE_PRODUCT_VERSION))
+                   .withInitialisationData ("pluginVersion", JUCE_PRODUCT_VERSION)
+                   .withNativeFunction (
+                       juce::Identifier ("nativeFunction"),
+                       [this] (const juce::Array<juce::var> & args,
+                               juce::WebBrowserComponent::NativeFunctionCompletion completion)
+                       { nativeFunction (args, std::move (completion)); }))
 {
     juce::ignoreUnused (processorRef);
 
@@ -98,6 +103,8 @@ AudioPluginAudioProcessorEditor::AudioPluginAudioProcessorEditor (AudioPluginAud
     };
     addAndMakeVisible (emitJavaScriptEventButton);
 
+    addAndMakeVisible (labelUpdatedFromJavaScript);
+
     // Make sure that before the constructor has finished, you've set the
     // editor's size to whatever you need it to be.
     setResizable (true, true);
@@ -117,6 +124,7 @@ void AudioPluginAudioProcessorEditor::resized ()
     webView.setBounds (bounds.removeFromRight (getWidth () / 2));
     runJavaScriptButton.setBounds (bounds.removeFromTop (50).reduced (5));
     emitJavaScriptEventButton.setBounds (bounds.removeFromTop (50).reduced (5));
+    labelUpdatedFromJavaScript.setBounds (bounds.removeFromTop (50).reduced (5));
 }
 
 std::optional<juce::WebBrowserComponent::Resource>
@@ -139,6 +147,23 @@ AudioPluginAudioProcessorEditor::getResource (const juce::String & url)
     return juce::WebBrowserComponent::Resource {
         audio_plugin_util::streamToVector (*resource.createInputStream ()),
         audio_plugin_util::getMimeForExtension (extension)};
+}
+
+// This is the function that will be called from JavaScript
+void AudioPluginAudioProcessorEditor::nativeFunction (
+    const juce::Array<juce::var> & args,
+    juce::WebBrowserComponent::NativeFunctionCompletion completion)
+{
+    juce::String concatenatedArgs;
+
+    for (const auto & arg : args)
+    {
+        concatenatedArgs += arg.toString () + " ";
+    }
+    labelUpdatedFromJavaScript.setText ("Native function called with args: " + concatenatedArgs,
+                                        juce::dontSendNotification);
+
+    completion ("nativeFunction callback: All OK!");
 }
 
 }
