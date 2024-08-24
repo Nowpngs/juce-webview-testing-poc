@@ -71,6 +71,7 @@ AudioPluginAudioProcessorEditor::AudioPluginAudioProcessorEditor (AudioPluginAud
 
     runJavaScriptButton.onClick = [this]
     {
+        // This is the JavaScript that will be run
         constexpr auto JAVASCRIPT_TO_RUN {"console.log('Hello from JavaScript!');"};
         webView.evaluateJavascript (JAVASCRIPT_TO_RUN,
                                     [] (const juce::WebBrowserComponent::EvaluationResult result)
@@ -91,6 +92,7 @@ AudioPluginAudioProcessorEditor::AudioPluginAudioProcessorEditor (AudioPluginAud
 
     emitJavaScriptEventButton.onClick = [this]
     {
+        // This is the event that the JavaScript will listen for
         static const juce::Identifier EVENT_ID {"exampleEvent"};
         webView.emitEventIfBrowserIsVisible (EVENT_ID, 42.0);
     };
