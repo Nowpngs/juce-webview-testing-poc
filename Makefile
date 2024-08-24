@@ -14,3 +14,7 @@ format-style:
 run-plugin:
 	@echo "Running Plugin..."
 	@cd ./build/plugin/JuceWebViewPlugin_artefacts/Standalone/JuceWebViewPlugin.app/Contents/MacOS && ./JuceWebViewPlugin
+
+start-local-server:
+	@echo "Starting Local Server..."
+	@cd plugin/ui/public && npx http-server

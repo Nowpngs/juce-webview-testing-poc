@@ -40,6 +40,50 @@ Follow these steps to build and install your plugin:
 
    This will compile your plugin and create the necessary binaries.
 
+## Running the Plugin
+
+There are two ways to run the plugin with webview functionality in `PluginEditor.cpp`:
+
+1. **Using `webView.getResourceProviderRoot()`:**
+
+   This method loads the webview resources directly from the built-in resource provider. In `PluginEditor.cpp`, use the following:
+
+   ```cpp
+   webView.goToURL(webView.getResourceProviderRoot());
+   // webView.goToURL(audio_plugin_util::LOCAL_DEV_SERVER_ADDRESS);
+   ```
+
+   After building the plugin, you can run the output executable directly or use the following command at the root path:
+
+   ```bash
+   make run-plugin
+   ```
+
+2. **Using a Local Developer Front-End Server:**
+
+   If you prefer to use a local developer server for the front-end, follow these steps:
+
+   - First, start the local server with:
+
+   ```bash
+   make start-local-server
+   ```
+
+   - Then, modify the code in `PluginEditor.cpp` to point to the local server address:
+
+   ```cpp
+   // webView.goToURL(webView.getResourceProviderRoot());
+   webView.goToURL(audio_plugin_util::LOCAL_DEV_SERVER_ADDRESS);
+   ```
+
+   - Finally, run the executable.
+
+   ```bash
+   make run-plugin
+   ```
+
+**Note:** Remember to always build the plugin before running it to ensure all changes are applied.
+
 ## Coding Standard
 
 This project uses `clang-format` to maintain a consistent coding standard. To apply the coding standard to all `.cpp` and `.h` files in the plugin directories, follow these steps:

@@ -47,6 +47,8 @@ static juce::String getCurrentRootPath ()
         .getParentDirectory ()
         .getFullPathName ();
 }
+
+constexpr auto LOCAL_DEV_SERVER_ADDRESS = "http://127.0.0.1:8080";
 }
 
 namespace audio_plugin
@@ -82,7 +84,8 @@ AudioPluginAudioProcessorEditor::AudioPluginAudioProcessorEditor (AudioPluginAud
     juce::ignoreUnused (processorRef);
 
     addAndMakeVisible (webView);
-    webView.goToURL (webView.getResourceProviderRoot ());
+    // webView.goToURL (webView.getResourceProviderRoot ());
+    webView.goToURL (audio_plugin_util::LOCAL_DEV_SERVER_ADDRESS);
 
     runJavaScriptButton.onClick = [this]
     {
