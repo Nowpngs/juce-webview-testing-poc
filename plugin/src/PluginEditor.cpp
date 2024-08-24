@@ -58,8 +58,9 @@ AudioPluginAudioProcessorEditor::AudioPluginAudioProcessorEditor (AudioPluginAud
     : AudioProcessorEditor (&p)
     , processorRef (p)
     , webView (juce::WebBrowserComponent::Options ()
-                   .withResourceProvider ([this] (const juce::String & url)
-                                          { return getResource (url); })
+                   .withResourceProvider (
+                       [this] (const juce::String & url) { return getResource (url); },
+                       juce::URL {audio_plugin_util::LOCAL_DEV_SERVER_ADDRESS}.getOrigin ())
                    .withNativeIntegrationEnabled ()
                    .withUserScript (R"(console.log("Initialising Script");)")
                    .withInitialisationData ("vendor", JUCE_COMPANY_NAME)
