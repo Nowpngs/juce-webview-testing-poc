@@ -15,6 +15,14 @@ juce_add_plugin(${PROJECT_NAME}
     PRODUCT_NAME "JuceWebViewPlugin"
 )
 
+get_target_property(PRODUCT_NAME JuceWebViewPlugin JUCE_PRODUCT_NAME)
+get_target_property(COMPANY_NAME JuceWebViewPlugin JUCE_COMPANY_NAME)
+target_compile_definitions(JuceWebViewPlugin PRIVATE
+    JUCE_PRODUCT_NAME=" ${PRODUCT_NAME}"
+    JUCE_COMPANY_NAME=" ${COMPANY_NAME}"
+    JUCE_PRODUCT_VERSION=" ${PROJECT_VERSION}"
+)
+
 target_sources(${PROJECT_NAME}
     PRIVATE
     src/PluginProcessor.cpp
