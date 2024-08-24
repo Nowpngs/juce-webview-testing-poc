@@ -42,7 +42,7 @@ Follow these steps to build and install your plugin:
 
 ## Coding Standard
 
-This project uses `clang-format` to maintain a consistent coding standard. To apply the coding standard to all `.cpp` and `.h` files in the plugin and test directories, follow these steps:
+This project uses `clang-format` to maintain a consistent coding standard. To apply the coding standard to all `.cpp` and `.h` files in the plugin directories, follow these steps:
 
 1. **Install clang-format**
 
@@ -54,10 +54,10 @@ This project uses `clang-format` to maintain a consistent coding standard. To ap
 
 2. **Format the code**
 
-   Run the following command from the root directory of the project to format all `.cpp` and `.h` files in the plugin and test directories:
+   Run the following command from the root directory of the project to format all `.cpp` and `.h` files in the plugin directories:
 
    ```bash
-   find plugin test \( -name '*.cpp' -o -name '*.h' \) -exec clang-format -i {} +
+   find plugin \( -name '*.cpp' -o -name '*.h' \) -exec clang-format -i {} +
    ```
 
    This will apply `clang-format` to all relevant files according to the style defined in your `.clang-format` file.
