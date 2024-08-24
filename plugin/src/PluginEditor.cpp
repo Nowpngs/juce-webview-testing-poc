@@ -67,7 +67,17 @@ AudioPluginAudioProcessorEditor::AudioPluginAudioProcessorEditor (AudioPluginAud
                        juce::Identifier ("nativeFunction"),
                        [this] (const juce::Array<juce::var> & args,
                                juce::WebBrowserComponent::NativeFunctionCompletion completion)
-                       { nativeFunction (args, std::move (completion)); }))
+                       { nativeFunction (args, std::move (completion)); })
+                   .withEventListener (
+                       "exampleJavaScriptEvent",
+                       [this] (juce::var objectFromFrontend)
+                       {
+                           labelUpdatedFromJavaScript.setText (
+                               "Event received from JavaScript: " +
+                                   objectFromFrontend.getProperty ("emittedCount", 0).toString (),
+                               juce::dontSendNotification);
+                       }))
+
 {
     juce::ignoreUnused (processorRef);
 
