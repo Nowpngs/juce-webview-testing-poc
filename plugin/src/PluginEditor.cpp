@@ -149,6 +149,16 @@ AudioPluginAudioProcessorEditor::getResource (const juce::String & url)
     const juce::String urlToRetrive =
         url == "/" ? juce::String ("index.html") : url.fromFirstOccurrenceOf ("/", false, false);
 
+    if (urlToRetrive == "exampleResource")
+    {
+        juce::DynamicObject::Ptr data (new juce::DynamicObject ());
+        data->setProperty ("exampleProperty", 42);
+        const juce::String json = juce::JSON::toString (data.get ());
+        juce::MemoryInputStream stream (json.getCharPointer (), json.getNumBytesAsUTF8 (), false);
+        return juce::WebBrowserComponent::Resource {audio_plugin_util::streamToVector (stream),
+                                                    "application/json"};
+    }
+
     const juce::File resource = resourceFileRoot.getChildFile (urlToRetrive);
 
     if (! resource.existsAsFile ())

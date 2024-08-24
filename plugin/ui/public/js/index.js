@@ -17,6 +17,13 @@ document.getElementById("pluginVersion").innerText = data.pluginVersion;
 // Get the native function from the C++ backend
 const nativeFunction = Juce.getNativeFunction("nativeFunction");
 
+// Fetch a resource from the C++ backend (for local development similar to API calls)
+fetch(Juce.getBackendResourceAddress("exampleResource"))
+  .then((response) => response.text())
+  .then((textFromBackend) => {
+    console.log(textFromBackend);
+  });
+
 // Send an event to the C++ backend
 document.addEventListener("DOMContentLoaded", () => {
   const button = document.getElementById("nativeFunctionButton");
