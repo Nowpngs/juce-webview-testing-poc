@@ -7,7 +7,9 @@
 namespace audio_plugin
 {
 //==============================================================================
-class AudioPluginAudioProcessorEditor final : public juce::AudioProcessorEditor
+class AudioPluginAudioProcessorEditor final
+    : public juce::AudioProcessorEditor
+    , private juce::Timer
 {
 public:
     explicit AudioPluginAudioProcessorEditor (AudioPluginAudioProcessor &);
@@ -15,6 +17,8 @@ public:
 
     //==============================================================================
     void resized () override;
+
+    void timerCallback () override;
 
 private:
     std::optional<juce::WebBrowserComponent::Resource> getResource (const juce::String & url);

@@ -123,6 +123,9 @@ AudioPluginAudioProcessorEditor::AudioPluginAudioProcessorEditor (AudioPluginAud
     // editor's size to whatever you need it to be.
     setResizable (true, true);
     setSize (800, 600);
+
+    // Interval of timer callback is 60ms
+    startTimer (60);
 }
 
 AudioPluginAudioProcessorEditor::~AudioPluginAudioProcessorEditor ()
@@ -139,6 +142,11 @@ void AudioPluginAudioProcessorEditor::resized ()
     runJavaScriptButton.setBounds (bounds.removeFromTop (50).reduced (5));
     emitJavaScriptEventButton.setBounds (bounds.removeFromTop (50).reduced (5));
     labelUpdatedFromJavaScript.setBounds (bounds.removeFromTop (50).reduced (5));
+}
+
+void AudioPluginAudioProcessorEditor::timerCallback ()
+{
+    webView.emitEventIfBrowserIsVisible ("outputLevel", juce::var {});
 }
 
 std::optional<juce::WebBrowserComponent::Resource>
