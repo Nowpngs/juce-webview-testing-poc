@@ -1,3 +1,14 @@
+.PHONY: help install-dependencies build-plugin format-style run-plugin start-local-server
+
+help:
+	@echo "Available commands:"
+	@echo "  install-dependencies  - Install the necessary dependencies for the project."
+	@echo "  build-plugin          - Compile and build the plugin project."
+	@echo "  format-style          - Format the C++ source code files."
+	@echo "  run-plugin            - Run the standalone JUCE plugin."
+	@echo "  start-local-server    - Start a local HTTP server in the plugin UI directory."
+
+
 install-dependencies:
 	@echo "Installing Dependencies..."
 	cmake -S . -B build
