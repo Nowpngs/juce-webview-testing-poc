@@ -89,9 +89,23 @@ void AudioPluginAudioProcessor::changeProgramName (int index, const juce::String
 //==============================================================================
 void AudioPluginAudioProcessor::prepareToPlay (double sampleRate, int samplesPerBlock)
 {
-    // Use this method as the place to do any pre-playback
-    // initialisation that you need..
-    juce::ignoreUnused (sampleRate, samplesPerBlock);
+    // Prepare the envelope follower with the processing specifications
+    // juce::dsp::ProcessSpec holds the sample rate, block size, and number of channels
+    envelopeFollower.prepare (
+        juce::dsp::ProcessSpec {sampleRate,
+                                static_cast<juce::uint32> (samplesPerBlock),
+                                static_cast<juce::uint32> (getTotalNumOutputChannels ())});
+
+    // Set the attack time and release time for the envelope follower (in milliseconds)
+    // Set the type of level calculation for the envelope follower to 'peak'
+    envelopeFollower.setAttackTime (200.f);
+    envelopeFollower.setReleaseTime (200.f);
+    envelopeFollower.setLevelCalculationType (
+        juce::dsp::BallisticsFilter<float>::LevelCalculationType::peak);
+
+    // Resize the buffer used for storing the output of the envelope follower
+    // The buffer is set to match the number of output channels and samples per block
+    envelopeFollowerOutputBuffer.setSize (getTotalNumOutputChannels (), samplesPerBlock);
 }
 
 void AudioPluginAudioProcessor::releaseResources ()
@@ -154,6 +168,24 @@ void AudioPluginAudioProcessor::processBlock (juce::AudioBuffer<float> & buffer,
         juce::ignoreUnused (channelData);
         // ..do something to the data...
     }
+
+    // Create an AudioBlock from the input buffer, selecting a subset of channels
+    // inBlock will only include the channels from 0 to the total number of output channels
+    const auto inBlock = juce::dsp::AudioBlock<float> (buffer).getSubsetChannelBlock (
+        0u, static_cast<size_t> (getTotalNumOutputChannels ()));
+
+    // Create an AudioBlock that wraps around the envelope follower's output buffer
+    auto outBlock = juce::dsp::AudioBlock<float> (envelopeFollowerOutputBuffer);
+
+    // Process the input block with the envelope follower, storing the result in the output block
+    // ProcessContextNonReplacing means that the input block is not modified; the output block
+    // stores the result
+    envelopeFollower.process (juce::dsp::ProcessContextNonReplacing<float> (inBlock, outBlock));
+
+    // Convert the final sample of the first channel of the output block to decibels
+    // This represents the output level of the left channel
+    outputLevelLeft = juce::Decibels::gainToDecibels (
+        outBlock.getSample (0u, static_cast<int> (outBlock.getNumSamples () - 1)));
 }
 
 //==============================================================================
