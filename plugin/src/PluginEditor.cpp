@@ -168,6 +168,16 @@ AudioPluginAudioProcessorEditor::getResource (const juce::String & url)
                                                     "application/json"};
     }
 
+    if (urlToRetrive == "getOutputLevel")
+    {
+        juce::DynamicObject::Ptr data (new juce::DynamicObject ());
+        data->setProperty ("left", processorRef.outputLevelLeft.load ());
+        const juce::String json = juce::JSON::toString (data.get ());
+        juce::MemoryInputStream stream (json.getCharPointer (), json.getNumBytesAsUTF8 (), false);
+        return juce::WebBrowserComponent::Resource {audio_plugin_util::streamToVector (stream),
+                                                    "application/json"};
+    }
+
     const juce::File resource = resourceFileRoot.getChildFile (urlToRetrive);
 
     if (! resource.existsAsFile ())

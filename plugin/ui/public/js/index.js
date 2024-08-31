@@ -24,8 +24,9 @@ fetch(Juce.getBackendResourceAddress("exampleResource"))
     console.log(textFromBackend);
   });
 
-// Send an event to the C++ backend
+// After the UI was rendered, add event listeners
 document.addEventListener("DOMContentLoaded", () => {
+  // Send an event to the C++ backend
   const button = document.getElementById("nativeFunctionButton");
   button.addEventListener("click", () => {
     nativeFunction("one", 2, null).then((result) => {
@@ -40,5 +41,14 @@ document.addEventListener("DOMContentLoaded", () => {
     window.__JUCE__.backend.emitEvent("exampleJavaScriptEvent", {
       emittedCount: emittedCount,
     });
+  });
+
+  window.__JUCE__.backend.addEventListener("outputLevel", () => {
+    fetch(Juce.getBackendResourceAddress("getOutputLevel"))
+      .then((response) => response.text())
+      .then((outputLevel) => {
+        const levelData = JSON.parse(outputLevel);
+        console.log(levelData);
+      });
   });
 });
